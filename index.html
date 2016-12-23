@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>博联电话营销号码管理</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="plugin/bootstrap.css">
+        <link rel="stylesheet" href="plugin/bootstrap-theme.css">
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row" >
+                <div class="col-xs-4">
+                    <h1 style="color: #0099FF">博联商务</h1>
+                </div>
+                <div class="col-xs-8" style="height: 70px">    
+                    
+                        <div class="container-fluid">
+                            <ul class="nav nav-pills" >
+                                <li id="li1" role="presentation"><a href="javascript:uploadnum()" class="h5">上传原始号码</a></li>
+                                <li id="li2" role="presentation"><a href="javascript:download()" class="h5">下载拨打号码</a></li>
+                                <li id="li3" role="presentation"><a href="javascript:uploadproc()" class="h5">上传导出号码</a></li>
+                                <li id="li4" role="presentation"><a href="javascript:search()" class="h5">常用数据查询</a></li>
+                                <li id="li5" role="presentation"><a href="javascript:iptel()" class="h5">人工外呼删重</a></li>
+                            </ul>
+                        </div>
+                    
+                </div>
+                
+            </div>
+            <hr/>
+            <div class="row "  style="height: 450px">
+                <div class="col-xs-3">
+                </div>
+                <div id="content" class="col-xs-6"> 
+                    <h1 style="text-align: center">外呼电话号码管理</h1>
+                    <p class="lead">通过这个系统,可以上传收集到的电话号码,下载需要拨打的号码,并能通过收集拨打后的信息,来自动管理它们,避免反复拨打.<small style="color: red">(注意:本系统只适用于用自动外呼机的管理)</small></p>
+                </div>
+                <div class="col-xs-3">
+                    
+                </div>
+            </div>
+
+            <div class="row " >
+                <div class="col-xs-12">
+
+                    <p class="text-primary text-right">博联商务信息咨询有限公司, 蔡坚制作.</p>
+
+            </div>
+
+        </div>
+        </div>
+    <script src="plugin/jquery-1.12.1.min.js"></script>
+    <script src="plugin/bootstrap.js"></script>
+    <script> 
+
+    function uploadnum(){
+        $("#li1").addClass("active");
+        $("#li2").removeClass("active");
+        $("#li3").removeClass("active");
+        $("#li4").removeClass("active");
+        $("#li5").removeClass("active");
+        $("#content").load("raw.html");
+    }
+    function uploadproc(){
+        $("#li3").addClass("active");
+        $("#li2").removeClass("active");
+        $("#li1").removeClass("active");
+        $("#li4").removeClass("active");
+        $("#li5").removeClass("active");
+        $("#content").load("proc.html");
+    }
+        function download(){
+        $("#li2").addClass("active");
+        $("#li3").removeClass("active");
+        $("#li1").removeClass("active");
+        $("#li4").removeClass("active");
+        $("#li5").removeClass("active");
+        $("#content").load("download.html");
+    }
+        function search(){
+        $("#li4").addClass("active");
+        $("#li2").removeClass("active");
+        $("#li1").removeClass("active");
+        $("#li3").removeClass("active");
+        $("#li5").removeClass("active");
+        $("#content").load("search.html");
+    }    
+        function iptel(){
+        $("#li5").addClass("active");
+        $("#li2").removeClass("active");
+        $("#li1").removeClass("active");
+        $("#li3").removeClass("active");
+        $("#li4").removeClass("active");
+        $("#content").load("iptel.html");
+    }
+    
+    </script>
+    </body>   
+</html>

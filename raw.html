@@ -1,0 +1,82 @@
+<html lang="zh-CN">
+    <head>
+        <title>原始文件上传</title>
+        <script src="plugin/jquery.form.js"></script>
+        <script src="plugin/blockUI.min.js"></script>
+    </head> 
+
+    <body>
+        <h2 style="text-align: center">上传原始号码</h2>
+        <hr/>
+        <ol  >
+            <li style="text-align: left">文件必须是txt文件</li>
+            <li style="text-align: left">文件格式为每行一个电话号码,前面不能有空格,号码长度不能多于11位</li>
+            <li style="text-align: left">系统会自动处理重复数据</li>
+        </ol>
+        <form action="rawupload.php" method="post" enctype="multipart/form-data" >
+
+                <input id="file" class="form-control input-sm " type="file" name="upfile"><br>
+
+                <button class=" btn btn-primary center-block"  type="submit" >开始处理</button>
+                <p></p>
+                
+                <div class="progress">
+                    <div id="bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                        <span  id="barval">0%</span>
+                    </div>
+                </div>
+                
+    </form>
+            <textarea  id="status" class="form-control" rows="6"  readonly ></textarea>
+
+    <script>
+        (function () {
+
+            var bar = $('.bar');
+            var percent = $('.percent');
+            var status = $('#status');
+
+            $('form').ajaxForm({
+                beforeSubmit: function () {
+                    status.empty();
+
+                    var percentVal = '0%';
+                    $("#bar").css("width", percentVal);
+
+                    var strs = new Array(); //定义一数组
+                    var pic1 = $("#file").val();
+                    strs = pic1.split('.');
+                    var suffix = strs [strs.length - 1];
+
+                    if (suffix != 'txt') {
+                        alert("你选择的不是文本文件,请选择txt文件！");
+                        $('form').clearForm();
+                        //var obj = document.getElementById('file');
+                        //obj.outerHTML = obj.outerHTML; //这样清空，在IE8下也能执行成功
+                        //obj.select(); document.selection.clear(); 好像这种方法也可以清空 input file 的value值，不过我没测试
+                        return false;
+                    } else {
+                        $.blockUI({message: '正在处理中,请稍候......'});
+                    }
+
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    $("#bar").css("width", percentVal).find("span").html(percentVal);
+                    //$("#barval").html(precentVal);
+                },
+                complete: function (xhr) {
+                    $.unblockUI();
+                    $("form").clearForm();
+                    $("#status").html(xhr.responseText);
+
+                }
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
+
+

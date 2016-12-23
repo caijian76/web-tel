@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>多功能查询</title>
+        <script src="plugin/jquery.form.js"></script>
+        <link rel="stylesheet" href="plugin/bootstrap.css">
+        <link rel="stylesheet" href="plugin/bootstrap-theme.css">
+    </head> 
+
+    <body>
+        <h2 style="text-align: center">常用数据查询</h2>
+        <hr/>
+        <form action="procsearch.php" method="post" class="form-horizontal" target="_blank">
+          <div class="form-group">
+            <p class="help-block">1.选择一种查询条件.</p>
+            <p class="help-block">2.在结果中,可以继续进行查找操作.</p>
+            
+            <select name="searchid" class="form-control">
+                <option value="1">查询所有电话号码</option>
+                <option value="2">查询所有拨打记录</option>
+                <option value="3">查询接通大于20秒的记录</option>
+            </select>
+          </div>
+          
+
+             
+          <div class=" form-group">  
+          <button class=" btn btn-primary col-sm-offset-5 col-sm-2"  type="submit" >开始查询</button>
+          </div>
+         
+        </form>
+
+</body>
+</html>
+
+
+
+

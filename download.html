@@ -1,0 +1,122 @@
+<html lang="zh-CN">
+    <head>
+        <title>下载待拨打号码</title>
+        <script src="plugin/jquery.form.js"></script>
+        <script src="plugin/blockUI.min.js"></script>
+    </head> 
+
+    <body>
+        <h2 style="text-align: center">下载待拨打号码</h2>
+        <hr/>
+        
+        <form action="procdown.php" method="post" class="form-horizontal">
+          <div class="form-group">
+            <p class="help-block">1.如果输入的数量过大,系统没有足够的数据,输出的号码数,可能小于指定的数量.</p>
+            <p class="help-block">2.下载的号码,请放入外呼机,并在全部呼叫完成后,上传导出号码.如不上传,这些号码将不能被再次下载</p>
+            
+            <label for="telnum" class="col-sm-4 control-label">需要下载的号码数量</label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control" id="telnum" name="telnum" placeholder="号码数量">
+            </div>
+          </div>
+          
+          <div class=" form-group">
+              <label for="radio" class="col-sm-4 control-label">优先条件选择</label>
+              <div class="col-sm-offset-1 col-sm-7">
+              <label class="radio ">
+                <input type="radio" value="weiboda" checked="checked" name="boda">未拨打号码优先
+              </label>
+              <label class="radio">
+                <input type="radio" value="yiboda" name="boda">已拨打,但未接通号码优先
+              </label>
+          </div>
+          </div>
+           
+            <div class=" form-group">
+              <label for="radio" class="col-sm-4 control-label">号码归属运营商选择</label>
+              <div class="col-sm-offset-1 col-sm-7">
+              <label class="radio ">
+                <input type="radio" value="alltype" checked="checked" name="teltype">不限定运营商
+              </label>
+              <label class="radio">
+                <input type="radio" value="no-union" name="teltype">只选择非联通号码
+              </label>
+              <label class="radio">
+                <input type="radio" value="union" name="teltype">只选择联通号码
+              </label>
+          </div>
+          </div>
+          <div class=" form-group">  
+          <button class=" btn btn-primary col-sm-offset-5 col-sm-2" id="submit" type="submit" >开始处理</button>
+          </div>
+            <input id="filename" type="text" name="filename" style="display: none">
+        </form>
+        <hr/>
+            <textarea  id="status" class="form-control" rows="6"  readonly ></textarea>
+
+    <script>
+        (function () {
+
+       //     var bar = $('.bar');
+       //     var percent = $('.percent');
+       //     var status = $('#status');
+            var downfile="";
+            
+            $('#submit').click(function(){
+                         
+                         var d = new Date();
+                         var mon=d.getMonth()+1;
+                         var day=d.getDate();
+                         var hours=d.getHours();
+                         var min=d.getMinutes();
+                         var sec=d.getSeconds();
+                         $("#filename").val("up/down"+mon+"-"+day+"-"+hours+"-"+min+"-"+sec+".txt");
+                         downfile=$("#filename").val();
+            })
+            $('form').ajaxForm({
+                beforeSubmit: function () {
+
+                    $('#status').text('');
+                    if ((isNaN($("#telnum").val())) || ($("#telnum").val()=="") || ($("#telnum").val()=="0")) {
+                        alert("号码数量不能为空或输入格式不正确,请输入数量！");
+                        $("#telnum").focus();
+                        return false;
+                    } else {
+                        $.blockUI({message: '正在处理中,请稍候......'});
+
+                    }
+
+                },
+                complete: function (xhr) {
+                    $.unblockUI();
+                    $("#downloadfile").removeAttr("disabled");
+                    $("#telnum").val('');
+                    $("#status").html(xhr.responseText);
+                    
+                    var form = $("<form>");
+                    form.attr('style', 'display:none');
+                    form.attr('target', '');
+                    form.attr('class','temp1')
+                    form.attr('method', 'POST');
+                    form.attr('action', 'downloadfile.php');
+
+                    
+                    var input=$("<input>");
+                         input.attr('type','text');
+                         input.attr('name','downfile');
+                         input.val(downfile);
+                    form.append(input);
+                    $('body').append(form);
+                    form.submit();
+                    form.remove();
+
+                }
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
+
+
